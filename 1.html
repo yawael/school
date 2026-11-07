@@ -1,0 +1,639 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>مدارس التفوق الحديثة</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<style>
+  /* Layout concept: a rising three-step staircase (تمهيدي ← أساسي ← ثانوي) is the brand motif.
+     It appears in the logo, the hero, and as the level marker on each stage card. */
+  :root{
+    --bg:#F8FAFC; --surface:#FFFFFF; --surface-2:#EDF1FA;
+    --fg:#14173F; --muted:#525C86; --line:#DAE0EF;
+    --brand-ink:#25217E; --magenta-ink:#C0166F; --teal:#12B0C4; --teal-ink:#0A7686;
+    --hero:#1C1A68; --hero-deep:#14134F; --on-hero:#FFFFFF; --on-hero-muted:#C9CCF0;
+    --btn:#D01C7E; --btn-hover:#B01468; --wa:#0B7C8C; --wa-hover:#096A78;
+    --err:#C0262D; --ok:#0A7A5A;
+    --shadow:0 18px 40px -22px rgba(28,26,104,.35);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0B0C25; --surface:#14163D; --surface-2:#1A1D4D;
+      --fg:#EDEFFF; --muted:#A8B0D8; --line:#2B2F68;
+      --brand-ink:#BDBBFF; --magenta-ink:#FF6DB4; --teal-ink:#43D4E8;
+      --hero:#17165A; --hero-deep:#0F0E40;
+      --err:#FF8A8F; --ok:#5BE0B5;
+      --shadow:0 18px 40px -22px rgba(0,0,0,.7);
+      color-scheme:dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0B0C25; --surface:#14163D; --surface-2:#1A1D4D;
+    --fg:#EDEFFF; --muted:#A8B0D8; --line:#2B2F68;
+    --brand-ink:#BDBBFF; --magenta-ink:#FF6DB4; --teal-ink:#43D4E8;
+    --hero:#17165A; --hero-deep:#0F0E40;
+    --err:#FF8A8F; --ok:#5BE0B5;
+    --shadow:0 18px 40px -22px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+
+  body{background:var(--bg);color:var(--fg)}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--surface)}
+
+  .app{font-family:'Cairo',system-ui,-apple-system,'Segoe UI',Tahoma,sans-serif;font-size:16px;line-height:1.85;color:var(--fg);background:var(--bg)}
+  .app h1,.app h2,.app h3,.app h4,.app p,.app ul{margin:0;padding:0}
+  .app h1,.app h2,.app h3,.app h4{font-weight:800;line-height:1.35;text-wrap:balance}
+  .app ul{list-style:none}
+  .app a{color:inherit;text-decoration:none}
+  .app :focus-visible{outline:3px solid var(--teal);outline-offset:3px;border-radius:8px}
+
+  .wrap{max-width:1180px;margin-inline:auto;
+    padding-left:max(16px,env(safe-area-inset-left,0px));
+    padding-right:max(16px,env(safe-area-inset-right,0px))}
+  section[id]{scroll-margin-top:76px}
+  .sec{padding-block:clamp(56px,8vw,96px)}
+  .band{background:var(--surface-2)}
+  .h2{font-size:clamp(1.6rem,3.2vw,2.3rem)}
+  .lead{color:var(--muted);max-width:62ch}
+
+  /* header */
+  .site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--surface);border-bottom:1px solid var(--line)}
+  .logo-name{font-weight:900;font-size:1.1rem;color:var(--brand-ink);line-height:1.3}
+  .logo-en{font-size:.68rem;letter-spacing:.07em;color:var(--muted);direction:ltr;text-align:right;line-height:1.3;font-weight:600}
+  .nav-link{padding:6px 14px;border-radius:999px;color:var(--muted);font-weight:600;transition:background .2s,color .2s}
+  .nav-link:hover{color:var(--fg);background:var(--surface-2)}
+  .nav-link[aria-current="true"]{color:var(--brand-ink);background:var(--surface-2);font-weight:800}
+  .icon-btn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer}
+  .mobile-panel{border-top:1px solid var(--line);background:var(--surface);padding-block:12px 18px}
+  .mobile-panel .nav-link{display:block;padding:10px 14px;border-radius:12px}
+
+  /* buttons */
+  .btn{padding:11px 22px;border-radius:999px;font-weight:800;font-family:inherit;font-size:1rem;line-height:1.5;border:1.5px solid transparent;cursor:pointer;transition:background .2s,transform .2s,border-color .2s}
+  .btn-primary{background:var(--btn);color:#fff}
+  .btn-primary:hover{background:var(--btn-hover)}
+  .btn-wa{background:var(--wa);color:#fff}
+  .btn-wa:hover{background:var(--wa-hover)}
+  .btn-ghost{border-color:rgba(255,255,255,.45);color:#fff}
+  .btn-ghost:hover{background:rgba(255,255,255,.1);border-color:#fff}
+  .btn-line{border-color:var(--line);color:var(--fg);background:var(--surface)}
+  .btn-line:hover{border-color:var(--teal)}
+  .btn-lg{padding:14px 28px;font-size:1.05rem}
+
+  /* icons */
+  .i{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+  .ico{width:54px;height:54px;border-radius:15px;color:#fff;flex:none}
+  .ico .i{width:26px;height:26px}
+  .ico-teal{background:#0E8FA1}
+  .ico-mag{background:#D01C7E}
+  .ico-navy{background:#25217E}
+  .ico-violet{background:#5B4BD8}
+
+  /* hero */
+  .hero{position:relative;overflow:hidden;background:var(--hero);color:var(--on-hero)}
+  .hero-arcs{position:absolute;inset-inline-end:-220px;bottom:-260px;width:760px;height:760px;pointer-events:none}
+  .hero-inner{position:relative}
+  .eyebrow{font-weight:700;font-size:.95rem;color:var(--on-hero-muted);letter-spacing:.02em}
+  .hero h1{font-size:clamp(2.3rem,6.4vw,4.3rem);font-weight:900;line-height:1.3}
+  .slogan{display:inline-block;margin-top:10px;padding:0 18px 4px;background:#D01C7E;color:#fff;border-radius:14px;line-height:1.45}
+  .hero-sub{color:var(--on-hero-muted);font-size:clamp(1.02rem,2vw,1.2rem);max-width:54ch}
+  .chip{padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);font-weight:700;font-size:.92rem;color:#fff}
+  .chip .i{color:#6FE3F2}
+  .stairs-wrap{padding:24px;border-radius:28px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.16)}
+  .stairs{display:flex;align-items:flex-end;gap:12px;height:260px;border-bottom:2px solid rgba(255,255,255,.28);padding-bottom:0}
+  .step{flex:1;min-width:0;border-radius:18px 18px 4px 4px;padding:14px 12px;display:flex;flex-direction:column;line-height:1.5}
+  .step b{font-size:1.1rem;font-weight:900}
+  .step span{font-size:.8rem;font-weight:600;opacity:.92}
+  .s1{height:38%;background:#19B6C9;color:#0F0E40}
+  .s2{height:68%;background:#6A5CF0;color:#fff}
+  .s3{height:100%;background:#D01C7E;color:#fff}
+  @media (min-width:1024px){.stairs{height:330px}}
+
+  /* cards */
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:22px;padding:28px}
+  .card-hover{transition:transform .25s,box-shadow .25s,border-color .25s}
+  .card-hover:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--teal)}
+  .card h3{font-size:1.3rem}
+  .card p{color:var(--muted)}
+  .pill{padding:3px 13px;border-radius:999px;font-size:.82rem;font-weight:800;background:color-mix(in srgb,var(--teal) 16%,transparent);color:var(--teal-ink)}
+  .en{direction:ltr;font-size:.8rem;letter-spacing:.05em;color:var(--muted);font-weight:600;text-align:right}
+  .lvl{display:flex;align-items:flex-end;gap:4px;height:30px;flex:none}
+  .lvl i{display:block;width:9px;border-radius:3px;background:var(--line)}
+  .lvl i:nth-child(1){height:11px}.lvl i:nth-child(2){height:20px}.lvl i:nth-child(3){height:30px}
+  .lvl i.on{background:var(--c)}
+  .tick{display:flex;gap:10px;align-items:flex-start;color:var(--fg);font-weight:600;font-size:.95rem;line-height:1.7}
+  .tick .i{color:var(--teal-ink);margin-top:5px;width:1.1em;height:1.1em}
+
+  /* form */
+  .field label{display:block;font-weight:700;margin-bottom:6px;font-size:.95rem}
+  .req{color:var(--magenta-ink)}
+  .input{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);font-family:inherit;font-size:1rem;line-height:1.6;transition:border-color .2s,box-shadow .2s}
+  .input::placeholder{color:var(--muted);opacity:.75}
+  .input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px color-mix(in srgb,var(--teal) 28%,transparent)}
+  .input[aria-invalid="true"]{border-color:var(--err)}
+  textarea.input{resize:vertical;min-height:120px}
+  .err{color:var(--err);font-size:.88rem;font-weight:700;margin-top:6px}
+  .ltr-input{direction:ltr;text-align:right}
+  .success-ico{width:68px;height:68px;border-radius:50%;background:color-mix(in srgb,var(--ok) 16%,transparent);color:var(--ok);flex:none}
+  .success-ico .i{width:34px;height:34px;stroke-width:2.2}
+  .step-n{width:34px;height:34px;border-radius:50%;background:var(--hero);color:#fff;font-weight:800;flex:none;font-size:.95rem}
+
+  /* footer */
+  .site-footer{background:var(--hero-deep);color:var(--on-hero)}
+  .site-footer h4{font-size:1.05rem;margin-bottom:14px}
+  .site-footer .muted{color:var(--on-hero-muted)}
+  .site-footer a.flink{color:var(--on-hero-muted);transition:color .2s}
+  .site-footer a.flink:hover{color:#fff}
+  .foot-row{display:flex;gap:10px;align-items:flex-start;color:var(--on-hero-muted)}
+  .foot-row .i{color:#6FE3F2;margin-top:6px}
+  .ltr{direction:ltr;unicode-bidi:isolate;display:inline-block}
+
+  @media (prefers-reduced-motion:reduce){
+    .btn,.card-hover,.nav-link,.input{transition:none}
+    .card-hover:hover{transform:none}
+  }
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3.5 8-7 10-3.5-2-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-cap" viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5L2 9z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/><path d="M22 9v6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.7-4.5 4.2 1.2 6L12 16.5 6.6 19.5l1.2-6L3.3 9.3l6.1-.7L12 3z"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M15 7h6v6"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 01-11.6 7.1L4 20l1-4.6A8 8 0 1121 12z"/></symbol>
+  <symbol id="i-fb" viewBox="0 0 24 24"><path d="M14 8h3V4h-3a4 4 0 00-4 4v2H7v4h3v6h4v-6h3l1-4h-4V8a1 1 0 011-1z"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 6a2 2 0 012-2z"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5h6a2 2 0 012 2v13a2 2 0 00-2-2H4V5z"/><path d="M20 5h-6a2 2 0 00-2 2v13a2 2 0 012-2h6V5z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9.5" cy="8" r="3"/><path d="M3.5 20v-1a4 4 0 014-4h4a4 4 0 014 4v1"/><path d="M16 5.2a3 3 0 010 5.6M20.5 20v-1a3 3 0 00-2.2-2.9"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-6.5 10-6.5S22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+</svg>
+
+<div class="app" dir="rtl" lang="ar">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="wrap flex items-center justify-between gap-3" style="height:68px">
+      <a href="#home" class="flex items-center gap-3" data-nav aria-label="مدارس التفوق الحديثة - الرئيسية">
+        <svg width="42" height="42" viewBox="0 0 40 40" aria-hidden="true" style="flex:none">
+          <rect width="40" height="40" rx="11" fill="#1C1A68"/>
+          <rect x="9" y="8" width="6" height="23" rx="2" fill="#E2328F"/>
+          <rect x="17" y="15" width="6" height="16" rx="2" fill="#8E82FF"/>
+          <rect x="25" y="21" width="6" height="10" rx="2" fill="#19B6C9"/>
+        </svg>
+        <span>
+          <span class="logo-name block">مدارس التفوق الحديثة</span>
+          <span class="logo-en block">Al.tafwq Modren Schools</span>
+        </span>
+      </a>
+
+      <nav class="hidden lg:flex items-center gap-1" aria-label="التنقل الرئيسي">
+        <a class="nav-link" href="#home" data-nav>الرئيسية</a>
+        <a class="nav-link" href="#about" data-nav>عن المدرسة</a>
+        <a class="nav-link" href="#stages" data-nav>المراحل الدراسية</a>
+        <a class="nav-link" href="#features" data-nav>مميزاتنا</a>
+        <a class="nav-link" href="#contact" data-nav>التواصل</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a class="btn btn-wa hidden sm:inline-flex items-center gap-2" data-wa="السلام عليكم، أرغب في الاستفسار عن مدارس التفوق الحديثة." href="https://wa.me/967700000000" target="_blank" rel="noopener">
+          <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg>
+          تواصل عبر الواتساب
+        </a>
+        <button class="icon-btn lg:hidden inline-flex items-center justify-center" id="menuBtn" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="فتح القائمة">
+          <svg class="i" id="menuIcon" aria-hidden="true"><use href="#i-menu"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="mobile-panel lg:hidden" id="mobileMenu" hidden>
+      <div class="wrap">
+        <nav aria-label="قائمة الجوال">
+          <a class="nav-link" href="#home" data-nav>الرئيسية</a>
+          <a class="nav-link" href="#about" data-nav>عن المدرسة</a>
+          <a class="nav-link" href="#stages" data-nav>المراحل الدراسية</a>
+          <a class="nav-link" href="#features" data-nav>مميزاتنا</a>
+          <a class="nav-link" href="#contact" data-nav>التواصل</a>
+        </nav>
+        <a class="btn btn-wa sm:hidden inline-flex items-center justify-center gap-2 w-full mt-3" data-wa="السلام عليكم، أرغب في الاستفسار عن مدارس التفوق الحديثة." href="https://wa.me/967700000000" target="_blank" rel="noopener">
+          <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg>
+          تواصل عبر الواتساب
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section id="home" class="hero">
+      <svg class="hero-arcs" viewBox="0 0 760 760" fill="none" aria-hidden="true">
+        <circle cx="380" cy="380" r="370" stroke="rgba(255,255,255,.07)" stroke-width="2"/>
+        <circle cx="380" cy="380" r="290" stroke="rgba(255,255,255,.07)" stroke-width="2"/>
+        <circle cx="380" cy="380" r="210" stroke="rgba(255,255,255,.07)" stroke-width="2"/>
+        <circle cx="380" cy="380" r="130" stroke="rgba(25,182,201,.35)" stroke-width="2"/>
+      </svg>
+      <div class="wrap hero-inner" style="padding-block:clamp(44px,7vw,92px)">
+        <div class="grid gap-12 lg:grid-cols-[1.15fr_.85fr] items-center">
+          <div>
+            <p class="eyebrow">تمهيدي · أساسي · ثانوي &nbsp;|&nbsp; بنين · بنات</p>
+            <h1 class="mt-3">
+              مدارس التفوق الحديثة
+              <span class="slogan">نحـن للتفـوق عنـوان</span>
+            </h1>
+            <p class="hero-sub mt-6">مراحل تعليمية متكاملة: تمهيدي - أساسي - ثانوي (بنين - بنات) بأحدث أساليب التعليم والتربية الحديثة.</p>
+
+            <div class="flex flex-wrap gap-3 mt-8">
+              <a class="btn btn-primary btn-lg inline-flex items-center justify-center gap-2" href="#contact" data-nav>
+                احجز مقعد ابنك الآن
+                <svg class="i" aria-hidden="true" style="transform:scaleX(-1)"><use href="#i-trend"/></svg>
+              </a>
+              <a class="btn btn-ghost btn-lg inline-flex items-center justify-center gap-2" href="https://www.facebook.com/ALtafwuqschools" target="_blank" rel="noopener">
+                <svg class="i" aria-hidden="true"><use href="#i-fb"/></svg>
+                تصفح صفحتنا على فيسبوك
+              </a>
+            </div>
+
+            <ul class="flex flex-wrap gap-2.5 mt-9" aria-label="ما يميزنا">
+              <li class="chip inline-flex items-center gap-2"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg>معلمين كفء</li>
+              <li class="chip inline-flex items-center gap-2"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg>بيئة آمنة</li>
+              <li class="chip inline-flex items-center gap-2"><svg class="i" aria-hidden="true"><use href="#i-star"/></svg>أنشطة لاصفية</li>
+              <li class="chip inline-flex items-center gap-2"><svg class="i" aria-hidden="true"><use href="#i-trend"/></svg>متابعة مستمرة</li>
+            </ul>
+          </div>
+
+          <div class="stairs-wrap" role="img" aria-label="سلّم المراحل الدراسية: تمهيدي ثم أساسي ثم ثانوي">
+            <div class="stairs">
+              <div class="step s1"><b>تمهيدي</b><span>بنين · بنات</span></div>
+              <div class="step s2"><b>أساسي</b><span>بنين · بنات</span></div>
+              <div class="step s3"><b>ثانوي</b><span>بنين · بنات</span></div>
+            </div>
+            <p style="margin-top:14px;color:var(--on-hero-muted);font-weight:600;font-size:.95rem">مسار تعليمي واحد متصل، من التمهيدي حتى الثانوي.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="sec">
+      <div class="wrap grid gap-10 lg:grid-cols-5 items-start">
+        <div class="lg:col-span-3">
+          <h2 class="h2">من نحن</h2>
+          <p class="lead mt-5" style="font-size:1.08rem">
+            في مدينة عدن، تقوم رسالة مدارس التفوق الحديثة على فكرة بسيطة: أن يتعلّم الطالب ويتفوّق، وأن يكبر وهو واثق بنفسه، متمسك بقيمه، قادر على خدمة مجتمعه.
+          </p>
+          <p class="lead mt-4" style="font-size:1.08rem">
+            نستقبل البنين والبنات في ثلاث مراحل متصلة، ونعمل مع كل أسرة كشريك حقيقي، فنتابع تقدّم الأبناء بانتظام، ونوفّر لهم بيئة منظمة تشجّع على السؤال والاجتهاد والإبداع. شعارنا هو ما نلتزم به كل يوم: <strong style="color:var(--brand-ink)">نحـن للتفـوق عنـوان</strong>.
+          </p>
+        </div>
+
+        <div class="card lg:col-span-2" style="background:var(--surface-2)">
+          <h3 style="font-size:1.15rem">ما نؤمن به</h3>
+          <ul class="grid gap-5 mt-5">
+            <li class="flex gap-4 items-start">
+              <span class="ico ico-navy inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg></span>
+              <span><strong class="block">التميز الأكاديمي</strong><span style="color:var(--muted);font-size:.95rem">منهج واضح ومتابعة تقود إلى نتائج نفخر بها.</span></span>
+            </li>
+            <li class="flex gap-4 items-start">
+              <span class="ico ico-mag inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-heart"/></svg></span>
+              <span><strong class="block">بناء الشخصية والقيم</strong><span style="color:var(--muted);font-size:.95rem">أخلاق وانضباط وثقة بالنفس إلى جانب العلم.</span></span>
+            </li>
+            <li class="flex gap-4 items-start">
+              <span class="ico ico-teal inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-users"/></svg></span>
+              <span><strong class="block">شراكة مع الأسرة</strong><span style="color:var(--muted);font-size:.95rem">تواصل مفتوح مع ولي الأمر في كل مرحلة.</span></span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Stages -->
+    <section id="stages" class="sec band">
+      <div class="wrap">
+        <h2 class="h2">المراحل الدراسية</h2>
+        <p class="lead mt-4">ثلاث مراحل متكاملة، يبدأ منها الطفل بخطوة آمنة ويصل إلى الجامعة بثقة.</p>
+
+        <div class="grid gap-6 mt-10 md:grid-cols-2 lg:grid-cols-3">
+          <article class="card card-hover flex flex-col gap-4">
+            <div class="flex items-start justify-between gap-4">
+              <span class="ico ico-teal inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-heart"/></svg></span>
+              <span class="lvl" style="--c:#19B6C9" aria-hidden="true"><i class="on"></i><i></i><i></i></span>
+            </div>
+            <div>
+              <h3>مرحلة التمهيدي</h3>
+              <p class="en mt-1">Kindergarten</p>
+            </div>
+            <p>بداية محببة وآمنة للطفل، نتعلّم فيها باللعب والأنشطة، وننمّي اللغة والمهارات الحركية والاجتماعية، ونهيّئه لدخول المرحلة الأساسية بثقة.</p>
+            <ul class="grid gap-2">
+              <li class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>تعلّم بالأنشطة واللعب</li>
+              <li class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>تنمية اللغة والمهارات الاجتماعية</li>
+            </ul>
+            <p class="mt-auto"><span class="pill">متاح بنين وبنات</span></p>
+          </article>
+
+          <article class="card card-hover flex flex-col gap-4">
+            <div class="flex items-start justify-between gap-4">
+              <span class="ico ico-violet inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-book"/></svg></span>
+              <span class="lvl" style="--c:#6A5CF0" aria-hidden="true"><i class="on"></i><i class="on"></i><i></i></span>
+            </div>
+            <div>
+              <h3>المرحلة الأساسية</h3>
+              <p class="en mt-1">Basic Education</p>
+            </div>
+            <p>نرسّخ المهارات الأساسية في القراءة والكتابة والرياضيات والعلوم واللغات، مع متابعة فردية لمستوى كل طالب وطالبة وتشجيع دائم على الاجتهاد.</p>
+            <ul class="grid gap-2">
+              <li class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>تأسيس قوي في المواد الأساسية</li>
+              <li class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>متابعة فردية وتقارير للأسرة</li>
+            </ul>
+            <p class="mt-auto"><span class="pill">متاح بنين وبنات</span></p>
+          </article>
+
+          <article class="card card-hover flex flex-col gap-4 md:col-span-2 lg:col-span-1">
+            <div class="flex items-start justify-between gap-4">
+              <span class="ico ico-mag inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg></span>
+              <span class="lvl" style="--c:#D01C7E" aria-hidden="true"><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            </div>
+            <div>
+              <h3>المرحلة الثانوية</h3>
+              <p class="en mt-1">Secondary Education</p>
+            </div>
+            <p>نُعدّ الطلاب والطالبات للمرحلة الجامعية بمنهج مركّز وتوجيه أكاديمي ومتابعة دقيقة، وتهيئة للاختبارات الرسمية، مع تنمية الاستقلالية والمسؤولية.</p>
+            <ul class="grid gap-2">
+              <li class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>توجيه أكاديمي ومهني</li>
+              <li class="tick"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg>تهيئة للاختبارات الرسمية</li>
+            </ul>
+            <p class="mt-auto"><span class="pill">متاح بنين وبنات</span></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="sec">
+      <div class="wrap">
+        <h2 class="h2">لماذا تختار مدارس التفوق؟</h2>
+        <p class="lead mt-4">أربعة أسباب تجعل أسرًا كثيرة تطمئن لتعليم أبنائها عندنا.</p>
+
+        <div class="grid gap-6 mt-10 sm:grid-cols-2 lg:grid-cols-4">
+          <article class="card card-hover">
+            <span class="ico ico-teal inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-monitor"/></svg></span>
+            <h3 class="mt-5" style="font-size:1.15rem">تقنيات تعليم حديثة</h3>
+            <p class="mt-2" style="font-size:.97rem">وسائل تفاعلية وأدوات رقمية تجعل الدرس أوضح وأقرب لاهتمامات الطالب.</p>
+          </article>
+          <article class="card card-hover">
+            <span class="ico ico-navy inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-cap"/></svg></span>
+            <h3 class="mt-5" style="font-size:1.15rem">كادر تعليمي مؤهل</h3>
+            <p class="mt-2" style="font-size:.97rem">معلمون ومعلمات ذوو كفاءة وخبرة، يتابعون كل طالب ويدعمونه خطوة بخطوة.</p>
+          </article>
+          <article class="card card-hover">
+            <span class="ico ico-violet inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-shield"/></svg></span>
+            <h3 class="mt-5" style="font-size:1.15rem">بيئة مدرسية آمنة</h3>
+            <p class="mt-2" style="font-size:.97rem">أجواء منضبطة تحفظ سلامة الأبناء وتراعي قيم الأسرة، ليتعلّموا باطمئنان.</p>
+          </article>
+          <article class="card card-hover">
+            <span class="ico ico-mag inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-star"/></svg></span>
+            <h3 class="mt-5" style="font-size:1.15rem">أنشطة لاصفية</h3>
+            <p class="mt-2" style="font-size:.97rem">أنشطة ثقافية ورياضية وفنية تصقل المواهب وتبني الثقة والعمل بروح الفريق.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact / Form -->
+    <section id="contact" class="sec band">
+      <div class="wrap grid gap-10 lg:grid-cols-[.85fr_1.15fr] items-start">
+        <div>
+          <h2 class="h2">نموذج التسجيل والاستفسار السريع</h2>
+          <p class="lead mt-4">املأ بياناتك وأرسل طلبك إلى إدارة المدرسة عبر الواتساب، وسنساعدك في اختيار المرحلة المناسبة لابنك أو ابنتك.</p>
+
+          <ol class="grid gap-5 mt-8" style="list-style:none;margin-inline:0;padding:0" aria-label="خطوات التسجيل">
+            <li class="flex gap-4 items-start"><span class="step-n inline-flex items-center justify-center">1</span><span><strong class="block">عبّئ النموذج</strong><span style="color:var(--muted)">أدخل اسمك ورقم هاتفك والمرحلة المطلوبة.</span></span></li>
+            <li class="flex gap-4 items-start"><span class="step-n inline-flex items-center justify-center">2</span><span><strong class="block">أرسل الطلب عبر الواتساب</strong><span style="color:var(--muted)">تصلنا رسالتك جاهزة بكل التفاصيل.</span></span></li>
+            <li class="flex gap-4 items-start"><span class="step-n inline-flex items-center justify-center">3</span><span><strong class="block">نتواصل معك</strong><span style="color:var(--muted)">لتحديد موعد زيارة المدرسة وإتمام إجراءات التسجيل.</span></span></li>
+          </ol>
+        </div>
+
+        <div class="card" style="padding:clamp(22px,4vw,36px);box-shadow:var(--shadow)">
+          <form id="inquiryForm" novalidate>
+            <div class="grid gap-5 sm:grid-cols-2">
+              <div class="field">
+                <label for="f-name">اسم ولي الأمر <span class="req">*</span></label>
+                <input class="input" id="f-name" name="name" type="text" autocomplete="name" placeholder="مثال: أحمد محمد" aria-describedby="err-name" required>
+                <p class="err" id="err-name" role="alert" hidden></p>
+              </div>
+              <div class="field">
+                <label for="f-phone">رقم الهاتف <span class="req">*</span></label>
+                <input class="input ltr-input" id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+967 7XX XXX XXX" aria-describedby="err-phone" required>
+                <p class="err" id="err-phone" role="alert" hidden></p>
+              </div>
+            </div>
+
+            <div class="field mt-5">
+              <label for="f-stage">المرحلة الدراسية المستهدفة <span class="req">*</span></label>
+              <select class="input" id="f-stage" name="stage" aria-describedby="err-stage" required>
+                <option value="">اختر المرحلة</option>
+                <option value="المرحلة التمهيدية">المرحلة التمهيدية</option>
+                <option value="المرحلة الأساسية">المرحلة الأساسية</option>
+                <option value="المرحلة الثانوية">المرحلة الثانوية</option>
+              </select>
+              <p class="err" id="err-stage" role="alert" hidden></p>
+            </div>
+
+            <div class="field mt-5">
+              <label for="f-msg">رسالتك أو استفسارك</label>
+              <textarea class="input" id="f-msg" name="msg" rows="4" maxlength="500" placeholder="اكتب سؤالك أو ملاحظاتك هنا (اختياري)"></textarea>
+            </div>
+
+            <button class="btn btn-primary btn-lg inline-flex items-center justify-center gap-2 w-full mt-6" type="submit">
+              إرسال الطلب
+              <svg class="i" aria-hidden="true"><use href="#i-check"/></svg>
+            </button>
+          </form>
+
+          <div id="success" tabindex="-1" hidden>
+            <div class="flex items-center gap-4">
+              <span class="success-ico inline-flex items-center justify-center"><svg class="i" aria-hidden="true"><use href="#i-check"/></svg></span>
+              <h3 style="font-size:1.35rem">شكرًا لك يا <span id="s-name"></span>، تم تجهيز طلبك</h3>
+            </div>
+            <p class="mt-5" style="color:var(--muted)">سجّلنا طلبك للالتحاق بـ<strong id="s-stage" style="color:var(--fg)"></strong>، وسنتواصل معك على الرقم <span class="ltr" id="s-phone" style="color:var(--fg);font-weight:700"></span>. الخطوة الأخيرة: اضغط الزر أدناه لإرسال الطلب إلى إدارة المدرسة عبر الواتساب.</p>
+            <div class="flex flex-wrap gap-3 mt-6">
+              <a class="btn btn-wa btn-lg inline-flex items-center justify-center gap-2" id="sendWa" href="https://wa.me/967700000000" target="_blank" rel="noopener">
+                <svg class="i" aria-hidden="true"><use href="#i-chat"/></svg>
+                إرسال عبر الواتساب
+              </a>
+              <button class="btn btn-line btn-lg inline-flex items-center justify-center" id="resetForm" type="button">تعبئة طلب جديد</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="wrap" style="padding-block:56px 28px">
+      <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.2fr_1fr_.8fr]">
+        <div>
+          <div class="flex items-center gap-3">
+            <svg width="44" height="44" viewBox="0 0 40 40" aria-hidden="true" style="flex:none">
+              <rect width="40" height="40" rx="11" fill="#1C1A68" stroke="rgba(255,255,255,.18)"/>
+              <rect x="9" y="8" width="6" height="23" rx="2" fill="#E2328F"/>
+              <rect x="17" y="15" width="6" height="16" rx="2" fill="#8E82FF"/>
+              <rect x="25" y="21" width="6" height="10" rx="2" fill="#19B6C9"/>
+            </svg>
+            <div>
+              <div style="font-weight:900;font-size:1.15rem;line-height:1.3">مدارس التفوق الحديثة</div>
+              <div style="direction:ltr;text-align:right;font-size:.7rem;letter-spacing:.07em;color:var(--on-hero-muted);font-weight:600">Al.tafwq Modren Schools</div>
+            </div>
+          </div>
+          <p class="muted mt-4" style="max-width:40ch">نحـن للتفـوق عنـوان. تعليم متكامل للبنين والبنات من التمهيدي إلى الثانوي في مدينة عدن.</p>
+          <a class="btn btn-ghost inline-flex items-center gap-2 mt-5" href="https://www.facebook.com/ALtafwuqschools" target="_blank" rel="noopener">
+            <svg class="i" aria-hidden="true"><use href="#i-fb"/></svg>
+            صفحتنا على فيسبوك
+          </a>
+        </div>
+
+        <div>
+          <h4>تواصل معنا</h4>
+          <ul class="grid gap-3">
+            <li class="foot-row"><svg class="i" aria-hidden="true"><use href="#i-phone"/></svg><span>هاتف: <span class="ltr">+967 7XX XXX XXX</span></span></li>
+            <li class="foot-row"><svg class="i" aria-hidden="true"><use href="#i-chat"/></svg><span>واتساب: <span class="ltr">+967 7XX XXX XXX</span></span></li>
+            <li class="foot-row"><svg class="i" aria-hidden="true"><use href="#i-pin"/></svg><span>عدن، الجمهورية اليمنية</span></li>
+            <li class="foot-row"><svg class="i" aria-hidden="true"><use href="#i-clock"/></svg><span>السبت – الخميس: 7:30 ص – 2:00 م<br>الجمعة: إجازة</span></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>روابط سريعة</h4>
+          <ul class="grid gap-2">
+            <li><a class="flink" href="#about" data-nav>عن المدرسة</a></li>
+            <li><a class="flink" href="#stages" data-nav>المراحل الدراسية</a></li>
+            <li><a class="flink" href="#features" data-nav>مميزاتنا</a></li>
+            <li><a class="flink" href="#contact" data-nav>التسجيل والاستفسار</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="muted" style="margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.14);font-size:.9rem">
+        © <span id="year">2026</span> مدارس التفوق الحديثة. جميع الحقوق محفوظة.
+      </p>
+    </div>
+  </footer>
+</div>
+
+<script>
+  // Edit these values to match the school's real contact details.
+  const CONFIG = { whatsapp: "967700000000" };
+
+  document.documentElement.setAttribute("dir", "rtl");
+  document.documentElement.setAttribute("lang", "ar");
+
+  const waUrl = (text) => "https://wa.me/" + CONFIG.whatsapp + (text ? "?text=" + encodeURIComponent(text) : "");
+  document.querySelectorAll("[data-wa]").forEach((a) => { a.href = waUrl(a.dataset.wa); });
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  // Mobile menu
+  const menuBtn = document.getElementById("menuBtn");
+  const menu = document.getElementById("mobileMenu");
+  const menuIcon = document.getElementById("menuIcon");
+  function setMenu(open) {
+    menu.hidden = !open;
+    menuBtn.setAttribute("aria-expanded", String(open));
+    menuBtn.setAttribute("aria-label", open ? "إغلاق القائمة" : "فتح القائمة");
+    menuIcon.innerHTML = '<use href="#' + (open ? "i-close" : "i-menu") + '"/>';
+  }
+  menuBtn.addEventListener("click", () => setMenu(menu.hidden));
+  window.addEventListener("resize", () => { if (window.innerWidth >= 1024) setMenu(false); });
+
+  // Smooth in-page navigation
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  document.querySelectorAll("a[data-nav]").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      const id = a.getAttribute("href").slice(1);
+      const target = document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      setMenu(false);
+      target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    });
+  });
+
+  // Highlight the current section in the top navigation
+  const navLinks = document.querySelectorAll("nav .nav-link");
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        navLinks.forEach((l) => l.setAttribute("aria-current", String(l.getAttribute("href") === "#" + en.target.id)));
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    document.querySelectorAll("main section[id]").forEach((s) => io.observe(s));
+  }
+
+  // Inquiry form
+  const form = document.getElementById("inquiryForm");
+  const success = document.getElementById("success");
+  const fName = document.getElementById("f-name");
+  const fPhone = document.getElementById("f-phone");
+  const fStage = document.getElementById("f-stage");
+  const fMsg = document.getElementById("f-msg");
+
+  const toLatinDigits = (s) => s.replace(/[٠-٩]/g, (d) => "٠١٢٣٤٥٦٧٨٩".indexOf(d)).replace(/[۰-۹]/g, (d) => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+  const normalizePhone = (s) => toLatinDigits(s).replace(/[\s\-().]/g, "");
+
+  function showError(input, msg) {
+    const box = document.getElementById("err-" + input.id.replace("f-", ""));
+    if (msg) {
+      box.textContent = msg; box.hidden = false;
+      input.setAttribute("aria-invalid", "true");
+    } else {
+      box.textContent = ""; box.hidden = true;
+      input.removeAttribute("aria-invalid");
+    }
+  }
+  [fName, fPhone, fStage].forEach((el) => {
+    el.addEventListener("input", () => showError(el, ""));
+    el.addEventListener("change", () => showError(el, ""));
+  });
+
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = fName.value.trim().replace(/\s+/g, " ");
+    const phone = normalizePhone(fPhone.value);
+    const stage = fStage.value;
+    let firstBad = null;
+
+    if (name.length < 3) { showError(fName, "يرجى كتابة اسم ولي الأمر (٣ أحرف على الأقل)."); firstBad = firstBad || fName; } else showError(fName, "");
+    if (!/^\+?\d{7,15}$/.test(phone)) { showError(fPhone, "يرجى إدخال رقم هاتف صحيح، مثال: 777123456 أو +967777123456."); firstBad = firstBad || fPhone; } else showError(fPhone, "");
+    if (!stage) { showError(fStage, "يرجى اختيار المرحلة الدراسية."); firstBad = firstBad || fStage; } else showError(fStage, "");
+
+    if (firstBad) { firstBad.focus(); return; }
+
+    const msg = fMsg.value.trim();
+    const text = "السلام عليكم، أنا " + name + " ولي أمر، وأرغب في التسجيل أو الاستفسار عن " + stage + "." +
+      "\nرقم الهاتف: " + phone + (msg ? "\nاستفساري: " + msg : "");
+
+    document.getElementById("s-name").textContent = name;
+    document.getElementById("s-stage").textContent = " " + stage;
+    document.getElementById("s-phone").textContent = phone;
+    document.getElementById("sendWa").href = waUrl(text);
+
+    form.hidden = true;
+    success.hidden = false;
+    success.focus();
+  });
+
+  document.getElementById("resetForm").addEventListener("click", () => {
+    form.reset();
+    [fName, fPhone, fStage].forEach((el) => showError(el, ""));
+    success.hidden = true;
+    form.hidden = false;
+    fName.focus();
+  });
+</script>
+
+</body></html>
